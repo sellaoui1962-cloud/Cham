@@ -1,4 +1,4 @@
-herename: Build X Ch APK
+name: Build X Ch APK
 
 on:
   push:
