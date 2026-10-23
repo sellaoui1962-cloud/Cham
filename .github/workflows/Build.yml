@@ -1,4 +1,4 @@
-name: Build X Ch APK
+herename: Build X Ch APK
 
 on:
   push:
@@ -9,8 +9,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: xch
     steps:
       - uses: actions/checkout@v4
+
+      - name: Unzip project
+        working-directory: .
+        run: |
+          unzip -q -o *.zip
+          ls -la xch
 
       - uses: actions/setup-node@v4
         with:
@@ -53,7 +62,7 @@ jobs:
         run: npx cap sync android
 
       - name: Build debug APK
-        working-directory: android
+        working-directory: xch/android
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug
@@ -61,5 +70,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: X-Ch-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: xch/android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
